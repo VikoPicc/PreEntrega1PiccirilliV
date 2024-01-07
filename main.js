@@ -1,59 +1,56 @@
-// Definir las calificaciones de los alumnos
+// Definir estudiantes como un array
+const estudiantes = [
+  { nombre: "Juan", notas: [9, 8, 9] },
+  { nombre: "María", notas: [8, 3, 8] },
+  { nombre: "Pedro", notas: [7, 8, 9] },
+  { nombre: "Ana", notas: [4, 7, 2] },
+  { nombre: "Carlos", notas: [8, 9, 9] }
+];
 
-let personas = [
-  {
-    Nombre: 'JUAN',
-    Calificacion: 7
-  },
-  {
-    Nombre: 'CAROLINA',
-    Calificacion: 8
-  },
-  {
-    Nombre: 'PEDRO',
-    Calificacion: 5
-  }, 
-  {
-    Nombre: 'SARA',
-    Calificacion: 9
-  }, 
-  {
-    Nombre: 'LUIS',
-    Calificacion: 3
-  }
-]
-  
+function evaluarCursado() {
+  // Pedir al usuario que ingrese el nombre del alumno
+  let nombreAlumno = prompt("Ingrese el nombre del alumno:");
 
-  // Función para determinar si un alumno está aprobado o desaprobado
-  function determinarEstado(calificacion) {
-    if (calificacion <= 5) {
-      return "Desaprobado";
-    } else {
-      return "Aprobado";
-    }
+  // Verificar si el nombre del alumno es válido
+  if (!nombreAlumno) {
+    alert("Nombre de alumno inválido. Por favor, vuelva a intentar.");
+    return;
   }
 
-  while(true) {
+  // Convertir el nombre ingresado a minúsculas
+  nombreAlumno = nombreAlumno.toLowerCase();
 
-    // Solicitar al usuario que ingrese el nombre del alumno
-    const nombreAlumno = prompt("Ingresa el nombre del alumno:").toUpperCase();
+  // Encontrar al estudiante en la lista
+  let estudiante = estudiantes.find(est => est.nombre.toLowerCase() === nombreAlumno);
 
-    let encontrado = false; 
-    for(let i = 0; i < personas.length; i++) {
-      if(personas[i].Nombre === nombreAlumno) {
-          const calificacion = personas[i].Calificacion;
-          const estado = determinarEstado(calificacion);
-          encontrado = true;
-          alert(`${nombreAlumno}: Calificación ${calificacion} - ${estado}`);
-       }
-    }
-  
-    if(encontrado === false) {
-      alert(`No se encontró al alumno con el nombre ${nombreAlumno}`);
-    }
-
-
+  // Verificar si el estudiante fue encontrado
+  if (!estudiante) {
+    alert("No se encontró al estudiante con el nombre proporcionado. Verifique e intente nuevamente.");
+    return;
   }
 
+  // Obtener las notas del estudiante
+  let [nota1, nota2, nota3] = estudiante.notas;
 
+  // Evaluar la condición final del cursado
+  if (nota1 >= 6 && nota2 >= 6 && nota3 >= 6) {
+    alert(`${nombreAlumno} aprobó los tres módulos. ¡Felicidades!`);
+  } else if (nota1 < 6 && nota2 >= 6 && nota3 >= 6) {
+    alert(`${nombreAlumno} desaprobó el primer módulo y debe recuperarlo.`);
+  } else if (nota1 >= 6 && nota2 < 6 && nota3 >= 6) {
+    alert(`${nombreAlumno} desaprobó el segundo módulo y debe recuperarlo.`);
+  } else if (nota1 >= 6 && nota2 >= 6 && nota3 < 6) {
+    alert(`${nombreAlumno} desaprobó el tercer módulo y debe recuperarlo.`);
+  } else if (nota1 < 6 && nota2 < 6 && nota3 >= 6) {
+    alert(`${nombreAlumno} desaprobó los dos primeros módulos y está aplazado.`);
+  } else if (nota1 >= 6 && nota2 < 6 && nota3 < 6) {
+    alert(`${nombreAlumno} desaprobó el segundo y tercer módulo y está aplazado.`);
+  } else if (nota1 < 6 && nota2 >= 6 && nota3 < 6) {
+    alert(`${nombreAlumno} desaprobó el primer y tercer módulo y está aplazado.`);
+  } else {
+    alert(`${nombreAlumno} desaprobó los tres módulos. Está aplazado.`);
+  }
+}
 
+// Llamar a la función para iniciar la evaluación del cursado
+evaluarCursado();
